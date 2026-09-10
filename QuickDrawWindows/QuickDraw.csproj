@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows10.0.20348.0</TargetFramework>
+	  <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <ApplicationIcon>QuickDraw.ico</ApplicationIcon>
+    <Authors>Matthew Fraser</Authors>
+    <Company>MF Digital Media</Company>
+    <Description>Gesture drawing app that shows you random images to draw.</Description>
+    <Copyright>Copyright © 2021 MF Digital Media</Copyright>
+    <PackageProjectUrl>https://github.com/blendermf/QuickDraw</PackageProjectUrl>
+    <PackageIcon>QuickDraw.png</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/blendermf/QuickDraw</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
+    <PackageTags>Drawing, Gesture, Quick, Poses</PackageTags>
+    <NeutralLanguage>en-CA</NeutralLanguage>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <SignAssembly>false</SignAssembly>
+    <StartupObject>QuickDraw.App</StartupObject>
+    <Version>1.0.4</Version>
+    <PackageReleaseNotes>You can now refresh folder image counts (without re-adding the folder)
+Clicking an image during a session now shows it in file explorer.</PackageReleaseNotes>
+	<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+	  <PostBuildEventDependsOn>
+		  $(PostBuildEventDependsOn);
+		  PostBuildMacros;
+	  </PostBuildEventDependsOn>
+	  <MinimumPlatformVersion>7.0</MinimumPlatformVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.824-prerelease" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\WebSrc\**" Exclude="..\WebSrc\**\.vs;..\WebSrc\**\.vs\**;..\WebSrc\**\.vscode;..\WebSrc\**\.vscode\**;">
+      <Link>WebSrc\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="..\..\..\..\Pictures\QuickDraw.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+	<Target Name="PostBuildMacros">
+		<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+			<Output TaskParameter="Assemblies" ItemName="Targets" />
+		</GetAssemblyIdentity>
+		<ItemGroup>
+			<VersionNumber Include="@(Targets->'%(Version)')" />
+		</ItemGroup>
+	</Target>
+	
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="powershell.exe -ExecutionPolicy Unrestricted -File &quot;$(ProjectDir)package.ps1&quot; -PackageName &quot;$(TargetName)&quot; -PackageVersion &quot;$(Version)&quot; -TargetDir &quot;$(TargetDir)\&quot;" />
+	</Target>
+
+</Project>

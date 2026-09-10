@@ -1,0 +1,21 @@
+# Build artifacts
+QuickDrawLinux/build/
+QuickDrawLinux/quickdraw
+QuickDrawLinux/QuickDraw-x86_64.AppImage
+QuickDrawLinux/share/icons/hicolor/
+QuickDrawLinux/share/applications/
+QuickDrawLinux/QuickDraw.png
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+
+# Windows build
+QuickDrawWindows/bin/
+QuickDrawWindows/obj/
+QuickDrawWindows/.vs/

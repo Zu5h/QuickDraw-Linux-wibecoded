@@ -1,0 +1,9 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Name=QuickDraw
+Comment=Gesture Drawing Practice App
+Exec=quickdraw
+Icon=quickdraw
+Terminal=false
+Categories=Graphics;Education;

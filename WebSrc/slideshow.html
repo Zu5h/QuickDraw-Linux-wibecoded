@@ -1,0 +1,37 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>QuickDraw Slideshow</title>
+  <meta name="description" content="Gesture Drawing Practice App">
+  <meta name="author" content="MF Digital Media">
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+  <div id="slideshow">
+    <img id="slideshow-image" class="visible" draggable="false">
+    <div id="topbar">
+        <div class="left">
+            <button id="pause" aria-label="pause" disabled=true><span class="symbol pause"></span> Pause</button>
+            <button id="continue" aria-label="continue" disabled=true><span class="symbol play"></span> Continue</button>
+        </div>
+        <div class="center">
+            <div id="slideshow-progress-bar" style="display: none">
+                    <div id="slideshow-progress" style="width:0%"></div>
+            </div>
+            <div id="slideshow-timer" style="display: none"></div>
+        </div>
+        <div class="right">
+            <button id="grayscale"><span class="symbol grayscale"/></span> Grayscale</button>
+            <button id="previous" aria-label="previous"><span class="symbol previous"></span> Previous</button>
+            <button id="skip" aria-label="skip"><span class="symbol next"></span> Skip</button>
+            <button id="stop" aria-label="stop"><span class="symbol stop"></span> Stop</button>
+        </div>
+    </div>
+  </div>
+  <script src="js/slideshow.js"></script>
+</body>
+</html>

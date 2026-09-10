@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>QuickDraw</title>
+  <meta name="description" content="Gesture Drawing Practice App">
+  <meta name="author" content="MF Digital Media">
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+  <div id="main-grid">
+    <div id="select-folders">Select Folder(s)</div>
+    <button id="refresh-folders"><span class="symbol refresh"></span> Refresh</button>
+    <button id="add-folders"><span class="symbol add"></span> Add Folder(s)</button>
+    <div id="folder-list-container">
+      <div class="folder-list-header">
+        <div class="master-checkbox"><input type="checkbox" name="" id=""></div>
+        <div>Path</div>
+        <div>Images</div>
+        <div class="spacing"></div>
+        <div class="hr"><hr></div>
+      </div>
+      <ul class="folder-list">
+        <li class="empty">
+          Click "<span class="symbol add"></span> Add Folder(s)" to add a folder
+        </li>
+        <template id="folder-row">
+          <li data-folder-path>
+            <div><input type="checkbox" name="" id=""></div>
+            <div class="folder-path"></div>
+            <div class="folder-image-count"></div>
+            <div><button class="refresh-folder" aria-label="Refresh Folder"><span class="symbol refresh"></span></button></div>
+            <div><button class="open-folder" aria-label="Open Folder"><span class="symbol folder"></span></button></div>
+            <div><button class="remove-folder" aria-label="Remove Folder"><span class="symbol delete"></span></button></div>
+          </li>
+        </template>
+      </ul>
+    </div>
+    <div id="footer">Time Per Image:
+      
+      <div class="time-item">
+          <input type="radio" id="t30" name="time" value="30">
+          <label for="t30">30s</label>
+      </div>
+      <div class="time-item">
+          <input type="radio" id="t60" name="time" value="60" checked>
+          <label for="t60">1m</label>
+      </div>
+      <div class="time-item">
+          <input type="radio" id="t120" name="time" value="120">
+          <label for="t120">2m</label>
+      </div>
+      <div class="time-item">
+          <input type="radio" id="t300" name="time" value="300">
+          <label for="t300">5m</label>
+      </div>
+      <div class="time-item">
+          <input type="radio" id="t0" name="time" value="0">
+          <label for="t0">No Limit</label>
+      </div>
+
+      <button id="start"><span class="symbol play"></span> Start</button>
+    </div>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+</html>
