@@ -1,0 +1,33 @@
+{
+    "id": "com.mfdigitalmedia.quickdraw",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "47",
+    "sdk": "org.gnome.Sdk",
+    "command": "quickdraw",
+    "finish-args": [
+        "--share=ipc",
+        "--socket=x11",
+        "--socket=wayland",
+        "--filesystem=host",
+        "--device=dri"
+    ],
+    "modules": [
+        {
+            "name": "quickdraw",
+            "buildsystem": "simple",
+            "build-commands": [
+                "bash build-flatpak.sh"
+            ],
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "../QuickDrawLinux"
+                },
+                {
+                    "type": "dir",
+                    "path": "../WebSrc"
+                }
+            ]
+        }
+    ]
+}

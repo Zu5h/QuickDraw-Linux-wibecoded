@@ -71,10 +71,24 @@ chmod +x QuickDraw-x86_64.AppImage
 ./QuickDraw-x86_64.AppImage
 ```
 
-Or build it yourself:
+### Native packages (.deb / .rpm)
+
+`.deb` and `.rpm` packages are available in Releases for Debian/Ubuntu and Fedora respectively. They pull dependencies from the distro repos (small download, native install):
+
+```bash
+# Debian / Ubuntu / Mint
+sudo apt install ./QuickDraw-1.0.0.deb
+
+# Fedora
+sudo dnf install ./QuickDraw-1.0.0.rpm
+```
+
+Note: the AppImage is built on Arch (glibc 2.44), so it only runs on distros with glibc >= 2.44. For older distros use the native `.deb`/`.rpm` packages instead.
+
+Build both yourself:
 ```bash
 cd QuickDrawLinux
-./build-appimage.sh
+./build-packages.sh
 ```
 
 ### Distribution

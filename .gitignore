@@ -2,6 +2,9 @@
 QuickDrawLinux/build/
 QuickDrawLinux/quickdraw
 QuickDrawLinux/QuickDraw-x86_64.AppImage
+QuickDraw-Linux-x86_64.AppImage
+QuickDraw-*.deb
+QuickDraw-*.rpm
 QuickDrawLinux/share/icons/hicolor/
 QuickDrawLinux/share/applications/
 QuickDrawLinux/QuickDraw.png
