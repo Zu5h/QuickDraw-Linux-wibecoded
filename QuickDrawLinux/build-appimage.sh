@@ -27,7 +27,7 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc pkg-config wget ca-certificates libgtk-3-dev libwebkit2gtk-4.1-dev libjson-glib-dev \
+    gcc make pkg-config wget ca-certificates libgtk-3-dev libwebkit2gtk-4.1-dev libjson-glib-dev \
     file binutils locales \
     && locale-gen en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
@@ -45,6 +45,21 @@ if ! docker image inspect quickdraw-builder:24.04 >/dev/null 2>&1; then
 fi
 
 rm -f "$PROJECT_DIR/QuickDraw-x86_64.AppImage"
+
+# Create AppRun on host to avoid heredoc-in-heredoc issues
+APPRUN_SRC="$SCRIPT_DIR/.AppRun"
+cat > "$APPRUN_SRC" << 'APPRUNEOF'
+#!/bin/bash
+SELF=$(readlink -f "$0")
+HERE=${SELF%/*}
+export PATH="${HERE}/usr/bin/:${PATH}"
+export LD_LIBRARY_PATH="${HERE}/usr/lib/:${LD_LIBRARY_PATH}"
+export XDG_DATA_DIRS="${HERE}/usr/share/:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+export WEBKIT_EXEC_PATH="${HERE}/usr/lib/webkit2gtk-4.1"
+export WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS=1
+exec "${HERE}/usr/bin/quickdraw" "$@"
+APPRUNEOF
+chmod +x "$APPRUN_SRC"
 
 echo "Building AppImage..."
 docker run --rm \
@@ -67,15 +82,17 @@ docker run --rm \
         cp share/applications/quickdraw.desktop $APPDIR/quickdraw.desktop
         cp -r share/icons/hicolor $APPDIR/usr/share/icons/
 
-        cat > $APPDIR/AppRun << EOF
-#!/bin/bash
-SELF=\$(readlink -f "\$0")
-HERE=\${SELF%/*}
-export PATH="\${HERE}/usr/bin/:\${PATH}"
-export LD_LIBRARY_PATH="\${HERE}/usr/lib/:\${LD_LIBRARY_PATH}"
-export XDG_DATA_DIRS="\${HERE}/usr/share/:\${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
-exec "\${HERE}/usr/bin/quickdraw" "\$@"
-EOF
+        # Bundle WebKitGTK helper processes (not tracked via ldd)
+        mkdir -p $APPDIR/usr/lib/webkit2gtk-4.1
+        for p in WebKitWebProcess WebKitNetworkProcess WebKitGPUProcess; do
+            cp /usr/lib/x86_64-linux-gnu/webkit2gtk-4.1/$p \
+               $APPDIR/usr/lib/webkit2gtk-4.1/$p
+        done
+        cp -r /usr/lib/x86_64-linux-gnu/webkit2gtk-4.1/injected-bundle \
+              $APPDIR/usr/lib/webkit2gtk-4.1/
+
+        # AppRun created on host
+        cp /project/QuickDrawLinux/.AppRun $APPDIR/AppRun
         chmod +x $APPDIR/AppRun
 
         echo "Downloading linuxdeploy..."
