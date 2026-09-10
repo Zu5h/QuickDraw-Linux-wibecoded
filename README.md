@@ -83,7 +83,7 @@ sudo apt install ./QuickDraw-1.0.0.deb
 sudo dnf install ./QuickDraw-1.0.0.rpm
 ```
 
-Note: the AppImage is built on Arch (glibc 2.44), so it only runs on distros with glibc >= 2.44. For older distros use the native `.deb`/`.rpm` packages instead.
+Note: the AppImage is built inside an Ubuntu 24.04 container (glibc 2.38 baseline) so it runs on most modern distros. For maximum portability or as an alternative, native `.deb`/`.rpm` packages are also provided.
 
 Build both yourself:
 ```bash
